@@ -10,7 +10,7 @@
 // ============================================
 
 // Backend API URL - Change this to your deployed backend URL
-const API_BASE_URL = window.location.hostname === 'localhost' 
+const API_BASE_URL = "https://proposal-website-jqvu.onrender.com";
     ? 'http://localhost:3000' 
     : 'https://your-backend-url.onrender.com'; // Change to your backend URL
 
