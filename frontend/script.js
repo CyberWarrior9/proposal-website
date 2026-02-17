@@ -9,9 +9,10 @@
 // Configuration
 // ============================================
 
-// Backend API URL - Change this to your deployed backend URL
-const API_BASE_URL = "https://proposal-website-jqvu.onrender.com"; 
-
+// Backend API URL
+const API_BASE_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'https://proposal-backend-4imx.onrender.com';
 
 // Minimum distance (in pixels) the NO button must stay from touch point
 const MIN_ESCAPE_DISTANCE = 100;
@@ -61,12 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function initFloatingHearts() {
     const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️', '💘', '💞'];
     const container = elements.heartsContainer;
-    
+
     // Create initial hearts
     for (let i = 0; i < 15; i++) {
         createFloatingHeart(hearts, container, true);
     }
-    
+
     // Continuously add new hearts
     setInterval(() => {
         createFloatingHeart(hearts, container, false);
@@ -77,24 +78,24 @@ function createFloatingHeart(hearts, container, randomY = false) {
     const heart = document.createElement('span');
     heart.className = 'floating-heart';
     heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-    
+
     // Random position and animation properties
     const left = Math.random() * 100;
     const duration = 4 + Math.random() * 6; // 4-10 seconds
     const delay = randomY ? Math.random() * 5 : 0;
     const size = 1 + Math.random() * 1.5; // 1-2.5rem
-    
+
     heart.style.left = `${left}%`;
     heart.style.animationDuration = `${duration}s`;
     heart.style.animationDelay = `${delay}s`;
     heart.style.fontSize = `${size}rem`;
-    
+
     if (randomY) {
         heart.style.top = `${Math.random() * 100}%`;
     }
-    
+
     container.appendChild(heart);
-    
+
     // Remove heart after animation
     setTimeout(() => {
         heart.remove();
@@ -114,26 +115,26 @@ async function handleYesClick() {
     if (state.isSubmitting || state.hasSaidYes) {
         return;
     }
-    
+
     state.isSubmitting = true;
     elements.btnYes.disabled = true;
-    
+
     try {
         // Send backend request
         await sendYesResponse();
-        
+
         // Mark as completed
         state.hasSaidYes = true;
-        
+
         // Show success modal
         showSuccessModal();
-        
+
         // Trigger confetti
         createConfetti();
-        
+
         // Clear NO attempts (they made the right choice!)
         sessionStorage.removeItem('noAttempts');
-        
+
     } catch (error) {
         console.error('Error:', error);
         // Still show success even if backend fails
@@ -152,17 +153,17 @@ async function sendYesResponse() {
             message: "Your Billota is ready to marry you 💍"
         })
     });
-    
+
     if (!response.ok) {
         throw new Error('Failed to record response');
     }
-    
+
     return response.json();
 }
 
 function showSuccessModal() {
     elements.modalOverlay.classList.add('active');
-    
+
     // Auto-close modal on click outside
     elements.modalOverlay.addEventListener('click', (e) => {
         if (e.target === elements.modalOverlay) {
@@ -174,7 +175,7 @@ function showSuccessModal() {
 function createConfetti() {
     const colors = ['#ff6b9d', '#ff4785', '#ffc2d1', '#ffe4ec', '#ff85a1', '#ffd700'];
     const container = elements.confettiContainer;
-    
+
     // Create 100 confetti pieces
     for (let i = 0; i < 100; i++) {
         setTimeout(() => {
@@ -184,9 +185,9 @@ function createConfetti() {
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             confetti.style.animationDuration = `${2 + Math.random() * 3}s`;
             confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            
+
             container.appendChild(confetti);
-            
+
             // Clean up
             setTimeout(() => confetti.remove(), 5000);
         }, i * 20);
@@ -199,13 +200,13 @@ function createConfetti() {
 
 function initNoButton() {
     const btnNo = elements.btnNo;
-    
+
     // Check if it's a touch device
     if (state.isMobile) {
         // Mobile: Use touch events for immediate response
         btnNo.addEventListener('touchstart', handleNoTouch, { passive: false });
         btnNo.addEventListener('pointerdown', handleNoTouch, { passive: false });
-        
+
         // Also prevent click on mobile (backup)
         btnNo.addEventListener('click', (e) => {
             e.preventDefault();
@@ -229,11 +230,11 @@ function initNoButton() {
 function handleNoTouch(e) {
     e.preventDefault();
     e.stopPropagation();
-    
+
     const touch = e.touches ? e.touches[0] : e;
     const touchX = touch.clientX;
     const touchY = touch.clientY;
-    
+
     // Move button away from touch point
     moveNoButtonAway(touchX, touchY);
 }
@@ -246,25 +247,25 @@ function moveNoButtonAway(fromX, fromY) {
     const btnRect = btnNo.getBoundingClientRect();
     const btnWidth = btnRect.width;
     const btnHeight = btnRect.height;
-    
+
     // Get safe area (viewport minus padding)
     const padding = 20;
     const maxX = window.innerWidth - btnWidth - padding;
     const maxY = window.innerHeight - btnHeight - padding;
-    
+
     let newX, newY, attempts = 0;
-    
+
     // Find a position that's at least MIN_ESCAPE_DISTANCE away
     do {
         newX = padding + Math.random() * (maxX - padding);
         newY = padding + Math.random() * (maxY - padding);
         attempts++;
-        
+
         // Safety break after 50 attempts
         if (attempts > 50) break;
-        
-    } while (getDistance(fromX, fromY, newX + btnWidth/2, newY + btnHeight/2) < MIN_ESCAPE_DISTANCE);
-    
+
+    } while (getDistance(fromX, fromY, newX + btnWidth / 2, newY + btnHeight / 2) < MIN_ESCAPE_DISTANCE);
+
     // Apply new position with fixed positioning
     btnNo.classList.add('escaping');
     btnNo.style.left = `${newX}px`;
@@ -286,12 +287,12 @@ function moveNoButtonDesktop() {
     const btnNo = elements.btnNo;
     const container = elements.buttonsContainer;
     const containerRect = container.getBoundingClientRect();
-    
+
     // Random position within container on desktop
     const maxMove = 150;
     const moveX = (Math.random() - 0.5) * maxMove * 2;
     const moveY = (Math.random() - 0.5) * maxMove;
-    
+
     btnNo.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${Math.random() * 20 - 10}deg)`;
 }
 
@@ -301,7 +302,7 @@ function moveNoButtonDesktop() {
 function handleNoClick() {
     state.noAttempts++;
     sessionStorage.setItem('noAttempts', state.noAttempts);
-    
+
     if (state.noAttempts === 1) {
         // First NO attempt
         alert('Think again 😏');
