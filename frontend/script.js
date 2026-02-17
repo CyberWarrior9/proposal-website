@@ -12,7 +12,7 @@
 // Backend API URL
 const API_BASE_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:3000'
-    : 'https://proposal-backend-4imx.onrender.com';
+    : 'https://proposal-website-jqvu.onrender.com';
 
 // Minimum distance (in pixels) the NO button must stay from touch point
 const MIN_ESCAPE_DISTANCE = 100;
