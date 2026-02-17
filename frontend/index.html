@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#ff6b9d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Will You Marry Me? 💍</title>
+    <!-- Google Fonts for romantic typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Ring Icon -->
+        <div class="ring-icon">💍</div>
+        
+        <!-- Question -->
+        <h1 class="question">Will you marry me?</h1>
+        
+        <!-- Buttons Container -->
+        <div class="buttons-container">
+            <!-- YES Button - Fixed position -->
+            <button class="btn btn-yes" id="btnYes" type="button">
+                <span class="btn-text">YES</span>
+                <span class="btn-icon">❤️</span>
+            </button>
+            
+            <!-- NO Button - Moves away on touch -->
+            <button class="btn btn-no" id="btnNo" type="button">
+                <span class="btn-text">NO</span>
+                <span class="btn-icon">💔</span>
+            </button>
+        </div>
+        
+        <!-- Subtle hint -->
+        <p class="hint">Choose wisely... 😊</p>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-icon">🎉</div>
+                <h2 class="modal-title">You made a great choice baby</h2>
+                <p class="modal-message">❤️ Love you.</p>
+                <div class="modal-hearts">
+                    <span>💕</span><span>💖</span><span>💕</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

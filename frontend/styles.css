@@ -1,0 +1,423 @@
+/*
+ * Proposal Website Styles
+ * =======================
+ * Mobile-first romantic design with hearts and animations
+ */
+
+/* CSS Variables for easy theming */
+:root {
+    --primary-pink: #ff6b9d;
+    --dark-pink: #ff4785;
+    --light-pink: #ffc2d1;
+    --soft-pink: #ffe4ec;
+    --white: #ffffff;
+    --gray: #666666;
+    --shadow: rgba(255, 107, 157, 0.3);
+    --gradient-start: #ffe4ec;
+    --gradient-end: #ffc2d1;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =====================
+   Floating Hearts Background
+   ===================== */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: float-up linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* =====================
+   Main Container
+   ===================== */
+.main-container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    animation: fade-in 1s ease-out;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ring Icon */
+.ring-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: pulse-ring 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px var(--shadow));
+}
+
+@keyframes pulse-ring {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Question Text */
+.question {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    color: var(--dark-pink);
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 4px var(--shadow);
+    line-height: 1.2;
+}
+
+/* =====================
+   Buttons
+   ===================== */
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    position: relative;
+    min-height: 180px;
+}
+
+.btn {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px var(--shadow);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    min-width: 160px;
+    justify-content: center;
+}
+
+/* Button press effect */
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Ripple effect */
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* YES Button */
+.btn-yes {
+    background: linear-gradient(135deg, var(--primary-pink) 0%, var(--dark-pink) 100%);
+    color: var(--white);
+    position: relative; /* Fixed position relative to container */
+    order: 1;
+}
+
+.btn-yes:hover,
+.btn-yes:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+.btn-yes:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* NO Button */
+.btn-no {
+    background: var(--white);
+    color: var(--gray);
+    order: 2;
+    transition: transform 0.2s ease-out, left 0.2s ease-out, top 0.2s ease-out;
+    will-change: transform, left, top;
+}
+
+.btn-no:hover {
+    background: #f5f5f5;
+}
+
+/* When NO button is in escape mode (moving) */
+.btn-no.escaping {
+    position: fixed;
+    z-index: 100;
+}
+
+/* Hint Text */
+.hint {
+    margin-top: 2rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+/* =====================
+   Modal
+   ===================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    padding: 1rem;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    max-width: 350px;
+    width: 100%;
+    text-align: center;
+    transform: scale(0.8);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.modal-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: var(--dark-pink);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.modal-message {
+    font-size: 1.3rem;
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+}
+
+.modal-hearts {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.modal-hearts span {
+    animation: heart-beat 1s ease-in-out infinite;
+}
+
+.modal-hearts span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.modal-hearts span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* =====================
+   Confetti
+   ===================== */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* =====================
+   Responsive Adjustments
+   ===================== */
+@media (min-width: 768px) {
+    .buttons-container {
+        flex-direction: row;
+        justify-content: center;
+        min-height: auto;
+    }
+    
+    .btn {
+        min-width: 140px;
+    }
+    
+    .btn-no {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+    }
+}
+
+/* Landscape mode on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .main-container {
+        padding: 1rem;
+    }
+    
+    .ring-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .question {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .buttons-container {
+        flex-direction: row;
+        gap: 1rem;
+        min-height: auto;
+    }
+    
+    .btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.2rem;
+    }
+    
+    .hint {
+        margin-top: 1rem;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
