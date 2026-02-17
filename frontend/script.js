@@ -10,9 +10,8 @@
 // ============================================
 
 // Backend API URL - Change this to your deployed backend URL
-const API_BASE_URL = "https://proposal-website-jqvu.onrender.com";
-    ? 'http://localhost:3000' 
-    : 'https://your-backend-url.onrender.com'; // Change to your backend URL
+const API_BASE_URL = "https://proposal-website-jqvu.onrender.com"; 
+
 
 // Minimum distance (in pixels) the NO button must stay from touch point
 const MIN_ESCAPE_DISTANCE = 100;
